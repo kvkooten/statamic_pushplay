@@ -1,5 +1,7 @@
-// Change siteName, CSS and JS files
-// Secure site with Valet SSL certificate
+// Move 'gulpfile.js' and 'package.json' to project root
+// Change siteName, themeName, CSS and JS files
+// Run 'valet link && valet secure'
+// Run 'yarn install'
 // Gulp tasks:
 // gulp init to prepare files for production
 // gulp browsersync for full browsersync experience
@@ -19,13 +21,14 @@ var gulp = require('gulp'),
     notify  = require('gulp-notify'),
     browserSync = require('browser-sync').create();
 
-var siteName = 'nieuwedokter_v1'; // set your siteName here
+var siteName = 'aabbcc'; // set your siteName here
 var userName = 'kaz'; // set your macOS userName here
+var themeName = 'klantnaam' // set theme themeName. This needs fixing.
 
 var config = {
   bootstrapDir: './node_modules/bootstrap',
-  publicDir: './',
-  srcDir: './src',
+  publicDir: 'site/themes/' + themeName + '/',
+  srcDir: 'site/themes/' + themeName + '/src',
 };
 
 var banner = [
@@ -77,7 +80,7 @@ gulp.task('bowerscripts', function() {
 });
 
 gulp.task('css', function () {
-  return gulp.src(config.srcDir+'/scss/nieuwedokter.scss') // Set SCSS file name
+  return gulp.src(config.srcDir+'/scss/' + themeName + '.scss') // Set SCSS file name
   .pipe(sass({
     includePaths: [
       config.bootstrapDir + '/scss'
@@ -95,9 +98,9 @@ gulp.task('css', function () {
 });
 
 gulp.task('js',function(){
-  gulp.src('src/js/*.js')
+  gulp.src('site/themes/' + themeName + '/src/js/*.js')
   .pipe(header(banner, { package : package }))
-  .pipe(concat('nieuwedokter.js')) // Set JS file name
+  .pipe(concat(themeName + '.js')) // Set JS file name
   .pipe(gulp.dest(config.publicDir+'/js'))
   .pipe(uglify())
   .pipe(header(banner, { package : package }))
@@ -113,9 +116,9 @@ gulp.task('init', ['csscopy','bowerscripts','css', 'js'], function () {
 });
 
 gulp.task('default', ['bowerscripts','css', 'js'], function () {
-  gulp.watch("src/scss/*/*.scss", ['css']);
-  gulp.watch("src/scss/*/*.sass", ['css']);
-  gulp.watch("src/js/*.js", ['js']);
+  gulp.watch("site/themes/pushplay/src/scss/*/*.scss", ['css']);
+  gulp.watch("site/themes/pushplay/src/scss/*/*.sass", ['css']);
+  gulp.watch("site/themes/pushplay/src/js/*.js", ['js']);
 });
 
 gulp.task('browsersync', ['bowerscripts','css', 'js'], function () {
@@ -128,25 +131,28 @@ gulp.task('browsersync', ['bowerscripts','css', 'js'], function () {
       key:
       '/Users/' +
       userName +
-      '/.valet/Certificates/' +
+      '/.config/valet/Certificates/' +
       siteName +
       '.dev.key',
       cert:
       '/Users/' +
       userName +
-      '/.valet/Certificates/' +
+      '/.config/valet/Certificates/' +
       siteName +
       '.dev.crt'
     }
   });
 
-  gulp.watch("src/scss/*/*.scss", ['css']).on( 'change', browserSync.reload );
-  gulp.watch("src/scss/*/*.sass", ['css']).on( 'change', browserSync.reload );
-  gulp.watch("src/js/*.js", ['js']).on( 'change', browserSync.reload );
-  gulp.watch(["./site/content/collections/**/*.md"]).on('change', browserSync.reload);
-  gulp.watch(["./site/content/pages/**/*.md"]).on('change', browserSync.reload);
-  gulp.watch(["partials/**/*.html"]).on('change', browserSync.reload);
-  gulp.watch(["layouts/**/*.html"]).on('change', browserSync.reload);
-  gulp.watch(["templates/**/*.html"]).on('change', browserSync.reload);
+  var watchlist = [
+    "site/themes/" + themeName + "/src/scss/*/*.scss", ['css'],
+    "site/themes/" + themeName + "/src/scss/*/*.sass", ['css'],
+    "site/themes/" + themeName + "/src/js/*.js", ['js'],
+    ["site/content/collections/**/*.md"],
+    ["site/content/pages/**/*.md"],
+    ["site/themes/" + themeName + "/partials/**/*.html"],
+    ["site/themes/" + themeName + "/layouts/**/*.html"],
+    ["site/themes/" + themeName + "/templates/**/*.html"]
+  ];
+  gulp.watch(watchlist, ['css', 'js']).on('change', browserSync.reload);
 
 }); // gulp.task('browsersync')...

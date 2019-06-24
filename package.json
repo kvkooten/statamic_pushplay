@@ -20,5 +20,8 @@
     "gulp-uglify": "^3.0.0",
     "jshint": "^2.9.5",
     "slick-carousel": "^1.8.1"
+  },
+  "dependencies": {
+    "browser-sync": "^2.26.7"
   }
 }
