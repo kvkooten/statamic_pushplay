@@ -79,7 +79,8 @@ gulp.task('bowerscripts', function() {
 });
 
 gulp.task('css', function () {
-  return gulp.src(config.srcDir+'/scss/' + themeName + '.scss') // Set SCSS file name
+  // return gulp.src(config.srcDir+'/scss/' + themeName + '.scss') // Set SCSS file name
+  return gulp.src(config.srcDir+'/scss/main.scss')
   .pipe(sass({
     includePaths: [
       config.bootstrapDir + '/scss'
@@ -99,7 +100,8 @@ gulp.task('css', function () {
 gulp.task('js',function(){
   gulp.src('site/themes/' + themeName + '/src/js/*.js')
   .pipe(header(banner, { package : package }))
-  .pipe(concat(themeName + '.js')) // Set JS file name
+  // .pipe(concat(themeName + '.js')) // Set JS file name
+  .pipe(concat('main.js'))
   .pipe(gulp.dest(config.publicDir+'/js'))
   .pipe(uglify())
   .pipe(header(banner, { package : package }))
