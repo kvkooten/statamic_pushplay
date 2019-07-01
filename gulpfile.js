@@ -20,9 +20,9 @@ var gulp = require('gulp'),
     notify  = require('gulp-notify'),
     browserSync = require('browser-sync').create();
 
-var siteName = 'nieuwedokter_v1'; // set your siteName here
+var siteName = 'sitename_v1'; // set your siteName here
 var userName = 'kaz'; // set your macOS userName here
-var themeName = 'nieuwedokter' // set theme themeName. This needs fixing.
+var themeName = 'theme' // set theme themeName. This needs fixing.
 
 var config = {
   bootstrapDir: './node_modules/bootstrap',
