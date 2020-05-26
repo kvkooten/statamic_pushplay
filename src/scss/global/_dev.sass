@@ -1,0 +1,29 @@
+.breakpoint
+  position: fixed
+  z-index: 99999
+  bottom: 0
+  left: 0
+  background-color: red
+  text-align: center
+  @include media-breakpoint-up(sm)
+    background: orange
+  @include media-breakpoint-up(md)
+    background: yellow
+  @include media-breakpoint-up(lg)
+    background: green
+  @include media-breakpoint-up(xl)
+    background: skyblue
+  p
+    font-size: 14px
+    line-height: 20px
+    &::after
+      display: block
+      content: "XS"
+      @include media-breakpoint-up(sm)
+        content: "SM"
+      @include media-breakpoint-up(md)
+        content: "MD"
+      @include media-breakpoint-up(lg)
+        content: "LG"
+      @include media-breakpoint-up(xl)
+        content: "XL"

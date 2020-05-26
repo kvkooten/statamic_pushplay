@@ -1,0 +1,15 @@
+<div class="breakpoint py-2 px-3">
+  <p class="font-weight-bold m-0" id="dimensions"></p>
+</div>
+
+<script>
+    window.onresize = displayWindowSize;
+    window.onload = displayWindowSize;
+
+    function displayWindowSize() {
+        myWidth = window.innerWidth;
+        myHeight = window.innerHeight;
+        // your size calculation code here
+        document.getElementById("dimensions").innerHTML = myWidth + "x" + myHeight;
+    };
+</script>

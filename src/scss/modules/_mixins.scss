@@ -1,0 +1,13 @@
+@mixin calc($property, $expression) {
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: calc(#{$expression});
+}
+
+@mixin background($position: 50%, $size: cover, $attachment: scroll, $repeat: no-repeat) {
+  background: {
+    position: $position;
+    size: $size;
+    attachment: $attachment;
+    repeat: $repeat;
+  }
+}

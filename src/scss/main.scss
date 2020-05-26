@@ -5,9 +5,13 @@
 @import 'mixins/breakpoints';  // import this to be able to use the MS media queries from BS folder
 @import 'functions';
 @import 'modules/variables';
-
+@import 'modules/mixins';
 
 //----------------------------------*\
 // VENDOR
 //----------------------------------*/
 @import 'vendor/external';
+
+@import 'global/dev';
+
+@import 'global/base';
