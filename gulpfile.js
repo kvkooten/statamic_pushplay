@@ -56,8 +56,8 @@ gulp.task('jscopy', function () {
 // run this command only once, otherwise modifications will be overwritten!
 // $ gulp csscopy
 var cssfiles = [
-  './node_modules/slick-carousel/slick/slick-theme.scss',
-  './node_modules/slick-carousel/slick/slick.scss'
+  // './node_modules/slick-carousel/slick/slick-theme.scss',
+  // './node_modules/slick-carousel/slick/slick.scss'
 ];
 
 gulp.task('csscopy', function () {
@@ -86,7 +86,11 @@ gulp.task('css', function () {
       config.bootstrapDir + '/scss'
     ],
   }).on('error', sass.logError))
-  .pipe(autoprefixer('last 4 versions'))
+  .pipe(autoprefixer({
+    browsers: ['last 4 versions'],
+    flexbox : true,
+    grid: true
+  }))
   .pipe(gulp.dest(config.publicDir+'/css'))
   .pipe(cssnano())
   .pipe(rename({ suffix: '.min' }))
@@ -139,8 +143,8 @@ gulp.task('default', ['bowerscripts','css', 'js'], function () {
 
 gulp.task('browsersync', ['bowerscripts','css', 'js'], function () {
   browserSync.init({
-    proxy: 'https://' + siteName + '.dev',
-    host: siteName + '.dev',
+    proxy: 'https://' + siteName + '.localhost',
+    host: siteName + '.localhost',
     open: 'external',
     port: 8000,
     https: {
@@ -149,13 +153,13 @@ gulp.task('browsersync', ['bowerscripts','css', 'js'], function () {
       userName +
       '/.config/valet/Certificates/' +
       siteName +
-      '.dev.key',
+      '.localhost.key',
       cert:
       '/Users/' +
       userName +
       '/.config/valet/Certificates/' +
       siteName +
-      '.dev.crt'
+      '.localhost.crt'
     }
   });
 
