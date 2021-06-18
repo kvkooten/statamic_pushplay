@@ -1,0 +1,15 @@
+section.grid
+  .container
+    .row
+      display: block
+      @include media-breakpoint-up(lg)
+        display: -ms-grid
+        display: grid
+        grid-column-gap: 0px
+        grid-row-gap: 0px
+
+section.grid#intro
+  .container
+    .row
+      grid-template-columns: repeat(2, auto)
+      grid-template-rows: repeat(2, auto)

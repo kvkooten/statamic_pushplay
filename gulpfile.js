@@ -8,13 +8,16 @@
 
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
+    postcss = require('gulp-postcss'),
+    autoprefixer = require('autoprefixer'),
+    cssnano = require('cssnano'),
+    gulpautoprefixer = require('gulp-autoprefixer'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
     header  = require('gulp-header'),
     rename = require('gulp-rename'),
-    cssnano = require('gulp-cssnano'),
+    gulpcssnano = require('gulp-cssnano'),
     concat = require('gulp-concat'),
     package = require('./package.json'),
     notify  = require('gulp-notify'),
@@ -22,7 +25,7 @@ var gulp = require('gulp'),
 
 var siteName = 'sitename_v1'; // set your siteName here
 var userName = 'kaz'; // set your macOS userName here
-var themeName = 'theme' // set theme themeName. This needs fixing.
+var themeName = 'themename' // set theme themeName. This needs fixing.
 
 var config = {
   bootstrapDir: './node_modules/bootstrap',
@@ -56,8 +59,8 @@ gulp.task('jscopy', function () {
 // run this command only once, otherwise modifications will be overwritten!
 // $ gulp csscopy
 var cssfiles = [
-  // './node_modules/slick-carousel/slick/slick-theme.scss',
-  // './node_modules/slick-carousel/slick/slick.scss'
+  './node_modules/slick-carousel/slick/slick-theme.scss',
+  './node_modules/slick-carousel/slick/slick.scss'
 ];
 
 gulp.task('csscopy', function () {
@@ -79,21 +82,14 @@ gulp.task('bowerscripts', function() {
 });
 
 gulp.task('css', function () {
-  // return gulp.src(config.srcDir+'/scss/' + themeName + '.scss') // Set SCSS file name
   return gulp.src(config.srcDir+'/scss/main.scss')
   .pipe(sass({
     includePaths: [
       config.bootstrapDir + '/scss'
     ],
   }).on('error', sass.logError))
-  .pipe(autoprefixer({
-    browsers: ['last 4 versions'],
-    flexbox : true,
-    grid: true
-  }))
-  .pipe(gulp.dest(config.publicDir+'/css'))
-  .pipe(cssnano())
-  .pipe(rename({ suffix: '.min' }))
+  // .pipe(postcss(autoprefixer))
+  .pipe(postcss([autoprefixer, cssnano]))
   .pipe(header(banner, { package : package }))
   .pipe(gulp.dest(config.publicDir+'/css'))
   .pipe(notify({
